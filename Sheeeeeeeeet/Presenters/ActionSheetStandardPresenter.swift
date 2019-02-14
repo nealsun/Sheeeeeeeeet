@@ -98,7 +98,7 @@ open class ActionSheetStandardPresenter: ActionSheetPresenter {
     }
     
     open func presentActionSheet(completion: @escaping () -> ()) {
-        guard let view = actionSheet?.stackView else { return }
+        guard let view = actionSheet?.contentView else { return }
         let frame = view.frame
         view.frame.origin.y += frame.height + 100
         let animation = { view.frame = frame }
@@ -113,7 +113,7 @@ open class ActionSheetStandardPresenter: ActionSheetPresenter {
     }
 
     open func removeActionSheet(completion: @escaping () -> ()) {
-        guard let view = actionSheet?.stackView else { return }
+        guard let view = actionSheet?.contentView else { return }
         let animation = { view.frame.origin.y += view.frame.height + 100 }
         animate(animation) { completion() }
     }

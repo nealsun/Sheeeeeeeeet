@@ -19,7 +19,7 @@ public enum ActionSheetMargin {
             case .top: return insets.top
             case .left: return insets.left
             case .right: return insets.right
-            case .bottom: return insets.bottom
+            case .bottom: return 0//insets.bottom
             }
         } else {
             return 0

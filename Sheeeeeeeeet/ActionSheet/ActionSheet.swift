@@ -168,6 +168,7 @@ open class ActionSheet: UIViewController {
     
     @IBOutlet weak var backgroundView: ActionSheetBackgroundView?
     @IBOutlet weak var stackView: UIStackView?
+    @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var headerViewContainer: ActionSheetHeaderView?
     @IBOutlet weak var headerViewContainerHeight: NSLayoutConstraint?
     @IBOutlet weak var itemsTableView: ActionSheetItemTableView?
