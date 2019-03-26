@@ -86,6 +86,7 @@
                 <constraint firstItem="SY3-WL-g9a" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailing" id="it1-TY-fQG"/>
                 <constraint firstItem="pz5-52-B05" firstAttribute="top" relation="greaterThanOrEqual" secondItem="vUN-kp-3ea" secondAttribute="top" id="kg8-TC-bNS"/>
                 <constraint firstItem="SY3-WL-g9a" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="txK-fC-hst"/>
+                <constraint firstAttribute="trailing" secondItem="a3t-st-aTv" secondAttribute="trailing" id="yS1-hl-lMK"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <point key="canvasLocation" x="55.200000000000003" y="48.125937031484263"/>

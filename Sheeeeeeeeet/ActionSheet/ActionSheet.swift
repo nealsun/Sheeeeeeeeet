@@ -89,16 +89,6 @@ import UIKit
 open class ActionSheet: UIViewController {
     
     
-    // MARK: - Deprecated - Remove in 1.4.0 ****************
-    @available(*, deprecated, message: "appearance will be removed in 1.4.0. Use the new appearance model instead")
-    public var appearance = ActionSheetAppearance(copy: .standard)
-    @available(*, deprecated, message: "setupItemsAndButtons(with:) will be removed in 1.4.0. Use `setup(items:)` instead")
-    open func setupItemsAndButtons(with items: [ActionSheetItem]) { setup(items: items) }
-    @available(*, deprecated, message: "itemSelectAction will be removed in 1.4.0. Use `selectAction` instead")
-    open var itemSelectAction: SelectAction { return selectAction }
-    // MARK: - Deprecated - Remove in 1.4.0 ****************
-    
-    
     // MARK: - Initialization
     
     public init(
@@ -146,6 +136,13 @@ open class ActionSheet: UIViewController {
     }
     
     
+    // MARK: - Types
+    
+    public enum HeaderViewLandscapeMode {
+        case visible, hidden
+    }
+    
+    
     // MARK: - Typealiases
     
     public typealias SelectAction = (ActionSheet, ActionSheetItem) -> ()
@@ -166,14 +163,16 @@ open class ActionSheet: UIViewController {
     
     // MARK: - Outlets
     
-    @IBOutlet weak var backgroundView: ActionSheetBackgroundView?
+    @IBOutlet public weak var backgroundView: ActionSheetBackgroundView?
+    
     @IBOutlet weak var stackView: UIStackView?
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var headerViewContainer: ActionSheetHeaderView?
-    @IBOutlet weak var headerViewContainerHeight: NSLayoutConstraint?
     @IBOutlet weak var itemsTableView: ActionSheetItemTableView?
-    @IBOutlet weak var itemsTableViewHeight: NSLayoutConstraint?
     @IBOutlet weak var buttonsTableView: ActionSheetButtonTableView?
+    
+    @IBOutlet weak var headerViewContainerHeight: NSLayoutConstraint?
+    @IBOutlet weak var itemsTableViewHeight: NSLayoutConstraint?
     @IBOutlet weak var buttonsTableViewHeight: NSLayoutConstraint?
     
     @IBOutlet weak var topMargin: NSLayoutConstraint?
@@ -185,6 +184,8 @@ open class ActionSheet: UIViewController {
     // MARK: - Header Properties
     
     open var headerView: UIView?
+    
+    public var headerViewLandscapeMode = HeaderViewLandscapeMode.visible
     
     
     // MARK: - Item Properties
@@ -225,8 +226,8 @@ open class ActionSheet: UIViewController {
     // MARK: - Refresh Functions
     
     open func refresh() {
-        applyLegacyAppearance()
         refreshHeader()
+        refreshHeaderVisibility()
         refreshItems()
         refreshButtons()
         stackView?.spacing = sectionMargins
@@ -236,20 +237,25 @@ open class ActionSheet: UIViewController {
     open func refreshHeader() {
         let height = headerView?.frame.height ?? 0
         headerViewContainerHeight?.constant = height
-        headerViewContainer?.isHidden = headerView == nil
         guard let view = headerView else { return }
         headerViewContainer?.addSubviewToFill(view)
     }
     
+    open func refreshHeaderVisibility() {
+        let size = view.frame.size
+        let hasHeader = headerView != nil
+        let isPortrait = size.height > size.width
+        let isVisible = hasHeader && (isPortrait || headerViewLandscapeMode == .visible)
+        headerViewContainer?.isHidden = !isVisible
+    }
+    
     open func refreshItems() {
-        items.forEach { $0.applyAppearance(appearance) }    // TODO: Deprecated - Remove in 1.4.0
         itemsTableView?.tableFooterView = createFooter()
         itemsTableViewHeight?.constant = itemsHeight
     }
     
     open func refreshButtons() {
         buttonsTableView?.isHidden = buttons.count == 0
-        buttons.forEach { $0.applyAppearance(appearance) }  // TODO: Deprecated - Remove in 1.4.0
         buttonsTableView?.tableFooterView = createFooter()
         buttonsTableViewHeight?.constant = buttonsHeight
     }
